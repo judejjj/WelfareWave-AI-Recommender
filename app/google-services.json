@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "223022340529",
+    "project_id": "welfarewave-app",
+    "storage_bucket": "welfarewave-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:223022340529:android:bb6afca8fcb18e40c6c590",
+        "android_client_info": {
+          "package_name": "com.example.welfarewave"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKElYArsJnqUEpjn4l0gelyS3xFtIa470"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

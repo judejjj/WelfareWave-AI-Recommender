@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- WelfareWave Accessible Modern Palette -->
+    <color name="ww_teal_700">#00695C</color>
+    <color name="ww_teal_900">#004D40</color>
+    <color name="ww_amber_400">#FFCA28</color>
+    <color name="ww_cream_bg">#FAFAFA</color>
+
+    <!-- Neutrals / text -->
+    <color name="ww_surface">#FFFFFF</color>
+    <color name="ww_text_primary">#1B1B1B</color>
+    <color name="ww_text_secondary">#424242</color>
+    <color name="ww_divider">#E0E0E0</color>
+    <color name="ww_error">#B00020</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

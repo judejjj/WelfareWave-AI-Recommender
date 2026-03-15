@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">WelfareWave</string>
+
+    <!-- Common -->
+    <string name="admin_login">Admin Login</string>
+    <string name="admin_access">Admin Access</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="guest">Continue as Guest</string>
+    <string name="register_new_user">Register New User</string>
+    <string name="name">Name</string>
+    <string name="register">Register</string>
+    <string name="welcome">Welcome, %1$s</string>
+    <string name="latest_schemes">Latest Schemes</string>
+    <string name="logout">Logout</string>
+    <string name="new_tag">NEW:</string>
+    <string name="marquee_text">New Scholarship Deadlines Announced! Apply Now...   •   Free health check-ups for seniors this month   •   Farmer subsidy payments are live</string>
+    <string name="browse_all_schemes">Browse All Schemes</string>
+    <string name="check_my_recommendations">Check My Recommendations</string>
+    <string name="search_schemes">Search Schemes</string>
+
+    <!-- Schemes -->
+    <string name="all_schemes">All Schemes</string>
+    <string name="recommended_for_you">Recommended for You</string>
+    <string name="ai_loading_note">Based on your profile (AI Loading…)</string>
+    <string name="open_application_link">Open Application Link</string>
+
+    <!-- Admin add scheme -->
+    <string name="admin_panel">Admin Panel</string>
+    <string name="admin_dashboard">Admin Dashboard</string>
+    <string name="add_scheme">Add Scheme</string>
+    <string name="update_scheme">Update Scheme</string>
+    <string name="generate_sample_data">Generate Sample Data</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="beneficiary_type">Beneficiary Type</string>
+    <string name="eligibility_rules">Eligibility Rules</string>
+    <string name="benefits">Benefits</string>
+    <string name="application_url">Application URL</string>
+    <!-- Categories -->
+    <string name="cat_students">Students</string>
+    <string name="cat_farmers">Farmers</string>
+    <string name="cat_women">Women</string>
+    <string name="cat_senior_citizens">Senior Citizens</string>
+    <string name="cat_disabled">Disabled</string>
+    <string name="apply_now">Apply Now</string>
+
+    <!-- Help Centers -->
+    <string name="help_centers_title">Help &amp; Akshaya Centers</string>
+    <string name="help_centers_desc">Find offline assistance and guidance.</string>
+    <string name="help_centers_desc_list">Find Akshaya centers or local help desks to assist you with offline applications.</string>
+    <string name="call_button">Call</string>
+    <string name="empty_help_centers">No help centers found.</string>
+</resources>

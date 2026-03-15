@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Typography (min 16sp body) -->
+    <dimen name="ww_text_body">16sp</dimen>
+    <dimen name="ww_text_body_large">18sp</dimen>
+    <dimen name="ww_text_title">22sp</dimen>
+    <dimen name="ww_text_header">26sp</dimen>
+    <dimen name="ww_text_button">18sp</dimen>
+
+    <!-- Spacing -->
+    <dimen name="ww_padding_s">8dp</dimen>
+    <dimen name="ww_padding_m">12dp</dimen>
+    <dimen name="ww_padding_l">16dp</dimen>
+    <dimen name="ww_padding_xl">20dp</dimen>
+
+    <!-- Shapes -->
+    <dimen name="ww_corner_radius">16dp</dimen>
+    <dimen name="ww_card_elevation">6dp</dimen>
+</resources>

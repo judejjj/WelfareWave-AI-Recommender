@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="scheme_categories">
+        <item>Select Category</item>
+        <item>Students</item>
+        <item>Farmers</item>
+        <item>Senior Citizens</item>
+        <item>Women</item>
+        <item>Disabled</item>
+        <item>General</item>
+    </string-array>
+</resources>

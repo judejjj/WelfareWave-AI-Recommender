@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ww_cream_bg"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ww_cream_bg"
+        android:elevation="0dp">
+        
+        <TextView
+            android:id="@+id/btnLanguageToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:text="A/അ"
+            android:textColor="@color/ww_teal_700"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"/>
+    </com.google.android.material.appbar.MaterialToolbar>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/ww_padding_l"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:contentDescription="WelfareWave logo"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ww_padding_m"
+            android:gravity="center"
+            android:text="WelfareWave"
+            android:textColor="@color/ww_teal_700"
+            android:textSize="@dimen/ww_text_header"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ww_padding_s"
+            android:gravity="center"
+            android:text="Sign in to see schemes you qualify for"
+            android:textColor="@color/ww_text_secondary"
+            android:textSize="@dimen/ww_text_body_large" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ww_padding_l"
+            app:cardBackgroundColor="@color/ww_surface"
+            app:cardCornerRadius="@dimen/ww_corner_radius"
+            app:cardElevation="@dimen/ww_card_elevation"
+            app:contentPadding="@dimen/ww_padding_l">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ww_padding_m"
+                    android:text="@string/email"
+                    android:textColor="@color/ww_text_secondary"
+                    android:textSize="@dimen/ww_text_body" />
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    style="@style/WelfareWave.EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="emailAddress"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ww_padding_l"
+                    android:text="@string/password"
+                    android:textColor="@color/ww_text_secondary"
+                    android:textSize="@dimen/ww_text_body" />
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    style="@style/WelfareWave.EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="password"
+                    android:hint="@string/password"
+                    android:inputType="textPassword" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLogin"
+                    style="@style/WelfareWave.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ww_padding_l"
+                    android:text="@string/login" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnGuest"
+                    style="@style/WelfareWave.Button.Secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ww_padding_m"
+                    android:text="@string/guest" />
+
+                <TextView
+                    android:id="@+id/tvRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ww_padding_m"
+                    android:gravity="center"
+                    android:text="@string/register_new_user"
+                    android:textColor="@color/ww_teal_700"
+                    android:textSize="@dimen/ww_text_body_large"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvAdminLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ww_padding_xl"
+            android:gravity="center"
+            android:padding="@dimen/ww_padding_m"
+            android:text="@string/admin_access"
+            android:textColor="@color/ww_text_secondary"
+            android:textSize="@dimen/ww_text_body" />
+
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>

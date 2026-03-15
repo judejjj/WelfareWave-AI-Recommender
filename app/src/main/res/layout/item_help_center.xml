@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    app:cardBackgroundColor="@color/ww_surface"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="8dp"
+    app:contentPadding="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvCenterName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Center Name"
+            android:textColor="@color/ww_premium_text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvCenterLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="8dp"
+            android:text="Location Details"
+            android:textColor="@color/ww_premium_text_secondary"
+            android:textSize="14sp"
+            app:drawableStartCompat="@android:drawable/ic_dialog_map"
+            app:drawableTint="@color/ww_premium_primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCallCenter"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/call_button"
+            android:textColor="@color/ww_premium_text_on_primary"
+            app:backgroundTint="@color/ww_premium_primary"
+            app:cornerRadius="12dp"
+            app:icon="@android:drawable/ic_menu_call"
+            app:iconGravity="textStart"
+            app:iconTint="@color/ww_premium_text_on_primary" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

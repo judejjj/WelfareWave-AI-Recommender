@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WelfareWave</string>
+
+    <!-- Common -->
+    <string name="admin_login">അഡ്മിൻ ലോഗിൻ</string>
+    <string name="admin_access">അഡ്മിൻ ആക്സസ്</string>
+    <string name="email">ഇമെയിൽ</string>
+    <string name="password">പാസ്സ്‌വേർഡ്</string>
+    <string name="login">ലോഗിൻ</string>
+    <string name="guest">അതിഥിയായി തുടരുക</string>
+    <string name="register_new_user">പുതിയ ഉപയോക്താവിനെ രജിസ്റ്റർ ചെയ്യുക</string>
+    <string name="name">പേര്</string>
+    <string name="register">രജിസ്റ്റർ ചെയ്യുക</string>
+    <string name="welcome">സ്വാഗതം, %1$s</string>
+    <string name="latest_schemes">ഏറ്റവും പുതിയ സ്കീമുകൾ</string>
+    <string name="logout">ലോഗ് ഔട്ട്</string>
+    <string name="new_tag">പുതിയത്:</string>
+    <string name="marquee_text">പുതിയ സ്കോളർഷിപ്പ് സമയപരിധി പ്രഖ്യാപിച്ചു! ഇപ്പോൾ അപേക്ഷിക്കുക... • മുതിർന്ന പൗരന്മാർക്ക് ഈ മാസം സൗജന്യ ആരോഗ്യ പരിശോധന • കർഷക സബ്സിഡി പേയ്മെന്റുകൾ ആരംഭിച്ചു</string>
+    <string name="browse_all_schemes">എല്ലാ സ്കീമുകളും ബ്രൗസ് ചെയ്യുക</string>
+    <string name="check_my_recommendations">എന്റെ ശുപാർശകൾ പരിശോധിക്കുക</string>
+    <string name="search_schemes">സ്കീമുകൾ തിരയുക</string>
+
+    <!-- Schemes -->
+    <string name="all_schemes">എല്ലാ സ്കീമുകളും</string>
+    <string name="recommended_for_you">നിങ്ങൾക്കായി ശുപാർശ ചെയ്യുന്നവ</string>
+    <string name="ai_loading_note">നിങ്ങളുടെ പ്രൊഫൈൽ അടിസ്ഥാനമാക്കി (AI ലോഡുചെയ്യുന്നു…)</string>
+    <string name="open_application_link">ആപ്ലിക്കേഷൻ ലിങ്ക് തുറക്കുക</string>
+    <string name="apply_now">ഇപ്പോൾ അപേക്ഷിക്കുക</string>
+
+    <!-- Admin add scheme -->
+    <string name="admin_panel">അഡ്മിൻ പാനൽ</string>
+    <string name="admin_dashboard">അഡ്മിൻ ഡാഷ്‌ബോർഡ്</string>
+    <string name="add_scheme">സ്കീം ചേർക്കുക</string>
+    <string name="update_scheme">സ്കീം പുതുക്കുക</string>
+    <string name="generate_sample_data">മാതൃകാ ഡാറ്റ നിർമ്മിക്കുക</string>
+    <string name="title">തലക്കെട്ട്</string>
+    <string name="description">വിവരണം</string>
+    <string name="beneficiary_type">ഗുണഭോക്താവിന്റെ തരം</string>
+    <string name="eligibility_rules">യോഗ്യതാ മാനദണ്ഡങ്ങൾ</string>
+    <string name="benefits">ആനുകൂല്യങ്ങൾ</string>
+    <string name="application_url">ആപ്ലിക്കേഷൻ യുആർഎൽ (URL)</string>
+
+    <!-- Categories -->
+    <string name="cat_students">വിദ്യാർത്ഥികൾ</string>
+    <string name="cat_farmers">കർഷകർ</string>
+    <string name="cat_women">സ്ത്രീകൾ</string>
+    <string name="cat_senior_citizens">മുതിർന്ന പൗരന്മാർ</string>
+    <string name="cat_disabled">ഭിന്നശേഷിക്കാർ</string>
+
+    <!-- Help Centers -->
+    <string name="help_centers_title">സഹായ &amp; അക്ഷയ കേന്ദ്രങ്ങൾ</string>
+    <string name="help_centers_desc">ഓഫ്‌ലൈൻ സഹായവും മാർഗ്ഗനിർദ്ദേശവും കണ്ടെത്തുക.</string>
+    <string name="help_centers_desc_list">ഓഫ്‌ലൈൻ അപേക്ഷകൾക്ക് നിങ്ങളെ സഹായിക്കാൻ കഴിയുന്ന അക്ഷയ കേന്ദ്രങ്ങളോ പ്രാദേശിക ഹെൽപ്പ് ഡെസ്കുകളോ കണ്ടെത്തുക.</string>
+    <string name="call_button">വിളിക്കുക</string>
+    <string name="empty_help_centers">സഹായ കേന്ദ്രങ്ങൾ ഒന്നും കണ്ടെത്തിയില്ല.</string>
+</resources>
