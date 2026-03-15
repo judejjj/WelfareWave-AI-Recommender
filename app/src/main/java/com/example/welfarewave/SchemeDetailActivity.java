@@ -74,17 +74,20 @@ public class SchemeDetailActivity extends BaseActivity {
         fabSpeak = findViewById(R.id.fabSpeak);
         textToSpeech = new TextToSpeech(this, status -> {
             if (status == TextToSpeech.SUCCESS) {
+                // Try Malayalam first; fall back to English if not installed
                 int result = textToSpeech.setLanguage(new Locale("ml", "IN"));
                 if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    Log.e(TAG, "Malayalam TTS not supported on this device.");
-                    fabSpeak.setEnabled(false);
+                    Log.w(TAG, "Malayalam TTS not available — falling back to English.");
+                    textToSpeech.setLanguage(Locale.ENGLISH);
                 } else {
                     Log.d(TAG, "TTS ready in Malayalam.");
-                    fabSpeak.setEnabled(true);
                 }
+                // FAB is always enabled — TTS will speak in whatever language is available
+                fabSpeak.setEnabled(true);
             } else {
-                Log.e(TAG, "TTS initialization failed.");
-                fabSpeak.setEnabled(false);
+                Log.e(TAG, "TTS initialization failed — status: " + status);
+                // Still keep FAB visible; retry will happen on next tap
+                fabSpeak.setEnabled(true);
             }
         });
 
@@ -95,18 +98,40 @@ public class SchemeDetailActivity extends BaseActivity {
                 isSpeaking = false;
                 fabSpeak.setImageResource(android.R.drawable.ic_lock_silent_mode_off);
             } else {
-                // Read what is CURRENTLY on screen — Title + Description
-                // (If translateView() already ran, this text is Malayalam)
-                String textToSpeak = tvTitle.getText().toString()
-                        + ". "
-                        + tvDescription.getText().toString();
+                // Dynamically set TTS language to match the UI language
+                if ("ml".equals(LocaleHelper.getLanguage(SchemeDetailActivity.this))) {
+                    textToSpeech.setLanguage(new Locale("ml", "IN"));
+                } else {
+                    textToSpeech.setLanguage(Locale.ENGLISH);
+                }
 
-                // Re-assert locale right before speaking (in case device TTS state changed)
-                textToSpeech.setLanguage(new Locale("ml", "IN"));
-                textToSpeech.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null, "TTS_SCHEME");
+                // Gather all scheme sections so TTS reads the entire page
+                // (Variables tvEligibility and tvBenefits are already accessed from onCreate scope)
+                
+                String fullText = tvTitle.getText().toString() + ". " 
+                        + tvDescription.getText().toString() + ". "
+                        + "Eligibility. " + tvEligibility.getText().toString() + ". "
+                        + "Benefits. " + tvBenefits.getText().toString();
+                
+                // Android TTS has a strict length limit per speak() call (esp for Unicode Malayalam).
+                // We split by sentences and queue them so it reads everything without stopping.
+                String[] sentences = fullText.split("(?<=\\.)|(?<=\\n)");
+                
+                boolean isFirst = true;
+                for (String sentence : sentences) {
+                    if (sentence.trim().isEmpty()) continue;
+                    
+                    if (isFirst) {
+                        textToSpeech.speak(sentence, TextToSpeech.QUEUE_FLUSH, null, "TTS_SCHEME");
+                        isFirst = false;
+                    } else {
+                        textToSpeech.speak(sentence, TextToSpeech.QUEUE_ADD, null, "TTS_SCHEME");
+                    }
+                }
+
                 isSpeaking = true;
                 fabSpeak.setImageResource(android.R.drawable.ic_media_pause);
-                Log.d(TAG, "Speaking: " + textToSpeak.substring(0, Math.min(60, textToSpeak.length())) + "...");
+                Log.d(TAG, "Speaking full long text sequentially.");
             }
         });
 
