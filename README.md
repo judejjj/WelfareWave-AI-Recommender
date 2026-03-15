@@ -25,4 +25,3 @@ The app employs a **Hybrid Recommendation System**:
 2. Build and run the Android project.
 
 ---
-*Developed as an MCA Project. Dedicated to improving digital accessibility for welfare services.*
