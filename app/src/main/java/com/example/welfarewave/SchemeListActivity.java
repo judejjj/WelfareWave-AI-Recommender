@@ -60,8 +60,16 @@ public class SchemeListActivity extends BaseActivity {
             // Backward compatibility with older callers
             category = getIntent().getStringExtra(EXTRA_FILTER_CATEGORY);
         }
+        
+        String displayCategory = category;
+        if ("Students".equals(category)) displayCategory = getString(R.string.cat_students);
+        else if ("Farmers".equals(category)) displayCategory = getString(R.string.cat_farmers);
+        else if ("Women".equals(category)) displayCategory = getString(R.string.cat_women);
+        else if ("Senior Citizens".equals(category)) displayCategory = getString(R.string.cat_senior_citizens);
+        else if ("Disabled".equals(category)) displayCategory = getString(R.string.cat_disabled);
+
         tvTitle.setText(getString(R.string.all_schemes));
-        tvSubtitle.setText(category == null || category.trim().isEmpty() ? "" : ("Category: " + category));
+        tvSubtitle.setText(category == null || category.trim().isEmpty() ? "" : ("Category: " + displayCategory));
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Query query = db.collection("welfare_schemes");

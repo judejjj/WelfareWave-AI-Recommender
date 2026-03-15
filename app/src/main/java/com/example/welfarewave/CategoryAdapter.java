@@ -16,10 +16,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.VH> {
 
     public static class CategoryItem {
         public final String name;
+        public final String canonicalName;
         public final @DrawableRes int iconRes;
 
-        public CategoryItem(@NonNull String name, @DrawableRes int iconRes) {
+        public CategoryItem(@NonNull String name, @NonNull String canonicalName, @DrawableRes int iconRes) {
             this.name = name;
+            this.canonicalName = canonicalName;
             this.iconRes = iconRes;
         }
     }

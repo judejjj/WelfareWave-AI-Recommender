@@ -87,14 +87,14 @@ public class DashboardActivity extends BaseActivity {
         // Categories grid
         List<CategoryAdapter.CategoryItem> categories = new ArrayList<>();
         categories.add(
-                new CategoryAdapter.CategoryItem(getString(R.string.cat_students), android.R.drawable.ic_menu_edit));
+                new CategoryAdapter.CategoryItem(getString(R.string.cat_students), "Students", android.R.drawable.ic_menu_edit));
         categories.add(
-                new CategoryAdapter.CategoryItem(getString(R.string.cat_farmers), android.R.drawable.ic_menu_compass));
+                new CategoryAdapter.CategoryItem(getString(R.string.cat_farmers), "Farmers", android.R.drawable.ic_menu_compass));
         categories.add(
-                new CategoryAdapter.CategoryItem(getString(R.string.cat_women), android.R.drawable.ic_menu_myplaces));
-        categories.add(new CategoryAdapter.CategoryItem(getString(R.string.cat_senior_citizens),
+                new CategoryAdapter.CategoryItem(getString(R.string.cat_women), "Women", android.R.drawable.ic_menu_myplaces));
+        categories.add(new CategoryAdapter.CategoryItem(getString(R.string.cat_senior_citizens), "Senior Citizens",
                 android.R.drawable.ic_menu_today));
-        categories.add(new CategoryAdapter.CategoryItem(getString(R.string.cat_disabled),
+        categories.add(new CategoryAdapter.CategoryItem(getString(R.string.cat_disabled), "Disabled",
                 android.R.drawable.ic_menu_info_details));
 
         // Use staggered grid layout for premium tile look
@@ -102,7 +102,7 @@ public class DashboardActivity extends BaseActivity {
                 androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL));
         rvCategories.setAdapter(new CategoryAdapter(categories, item -> {
             Intent i = new Intent(this, SchemeListActivity.class);
-            i.putExtra(CATEGORY_FILTER, item.name);
+            i.putExtra(CATEGORY_FILTER, item.canonicalName);
             startActivity(i);
         }));
 
