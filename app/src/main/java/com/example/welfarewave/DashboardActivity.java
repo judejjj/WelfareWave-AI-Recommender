@@ -1,5 +1,6 @@
 package com.example.welfarewave;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -96,6 +97,8 @@ public class DashboardActivity extends BaseActivity {
                 android.R.drawable.ic_menu_today));
         categories.add(new CategoryAdapter.CategoryItem(getString(R.string.cat_disabled), "Disabled",
                 android.R.drawable.ic_menu_info_details));
+        categories.add(new CategoryAdapter.CategoryItem("General / Other", "General / Other",
+                android.R.drawable.ic_menu_sort_by_size));
 
         // Use staggered grid layout for premium tile look
         rvCategories.setLayoutManager(new androidx.recyclerview.widget.StaggeredGridLayoutManager(2,
@@ -139,7 +142,18 @@ public class DashboardActivity extends BaseActivity {
                     .document(user.getUid())
                     .get()
                     .addOnSuccessListener(snapshot -> {
-                        String name = snapshot != null ? snapshot.getString("name") : null;
+                        if (snapshot == null || !snapshot.exists()) {
+                            tvWelcome.setText(getString(R.string.welcome, "User"));
+                            return;
+                        }
+
+                        UserProfile profile = snapshot.toObject(UserProfile.class);
+                        if (profile == null) {
+                            tvWelcome.setText(getString(R.string.welcome, "User"));
+                            return;
+                        }
+
+                        String name = profile.getName();
                         if (name == null || name.trim().isEmpty()) {
                             name = user.getEmail() != null ? user.getEmail() : "User";
                         }
@@ -149,7 +163,7 @@ public class DashboardActivity extends BaseActivity {
                         androidx.cardview.widget.CardView cardProfileBanner = findViewById(R.id.cardProfileBanner);
                         TextView tvCompleteNow = findViewById(R.id.tvCompleteNow);
                         
-                        if (snapshot != null && snapshot.exists() && snapshot.contains("age") && snapshot.get("age") != null && snapshot.getDouble("age") > 0) {
+                        if (profile.getAge() > 0) {
                             if (cardProfileBanner != null) cardProfileBanner.setVisibility(View.GONE);
                         } else {
                             if (cardProfileBanner != null) {
@@ -258,9 +272,16 @@ public class DashboardActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
-            auth.signOut();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
+            new AlertDialog.Builder(this)
+                    .setTitle("Logout")
+                    .setMessage("Are you sure you want to log out?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        auth.signOut();
+                        startActivity(new Intent(this, LoginActivity.class));
+                        finish();
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
             return true;
         }
         return super.onOptionsItemSelected(item);

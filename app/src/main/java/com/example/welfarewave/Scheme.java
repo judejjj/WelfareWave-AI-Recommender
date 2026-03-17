@@ -22,6 +22,10 @@ public class Scheme implements Serializable {
     private String eligibilityRules;
     private String benefits;
     private String applicationUrl;
+    private String targetCaste;
+    private String targetSex;
+    private boolean allowsGovtEmployee;
+    private long incomeCap;
 
     // Cache translated fields
     private String translatedTitle;
@@ -37,6 +41,7 @@ public class Scheme implements Serializable {
 
     public Scheme(String id, String title, String description, String beneficiaryType,
             String eligibilityRules, String benefits, String applicationUrl,
+            String targetCaste, String targetSex, boolean allowsGovtEmployee,
             com.google.firebase.Timestamp timestamp) {
         this.id = id;
         this.title = title;
@@ -45,6 +50,9 @@ public class Scheme implements Serializable {
         this.eligibilityRules = eligibilityRules;
         this.benefits = benefits;
         this.applicationUrl = applicationUrl;
+        this.targetCaste = targetCaste;
+        this.targetSex = targetSex;
+        this.allowsGovtEmployee = allowsGovtEmployee;
         this.timestamp = timestamp;
     }
 
@@ -72,10 +80,12 @@ public class Scheme implements Serializable {
         this.description = description;
     }
 
+    @com.google.firebase.firestore.PropertyName("category")
     public String getBeneficiaryType() {
         return beneficiaryType;
     }
 
+    @com.google.firebase.firestore.PropertyName("category")
     public void setBeneficiaryType(String beneficiaryType) {
         this.beneficiaryType = beneficiaryType;
     }
@@ -94,6 +104,16 @@ public class Scheme implements Serializable {
 
     public void setBenefits(String benefits) {
         this.benefits = benefits;
+    }
+
+    @com.google.firebase.firestore.PropertyName("incomeCap")
+    public long getIncomeCap() {
+        return incomeCap;
+    }
+
+    @com.google.firebase.firestore.PropertyName("incomeCap")
+    public void setIncomeCap(long incomeCap) {
+        this.incomeCap = incomeCap;
     }
 
     public String getApplicationUrl() {
@@ -142,5 +162,29 @@ public class Scheme implements Serializable {
 
     public void setTranslatedBenefits(String translatedBenefits) {
         this.translatedBenefits = translatedBenefits;
+    }
+
+    public String getTargetCaste() {
+        return targetCaste;
+    }
+
+    public void setTargetCaste(String targetCaste) {
+        this.targetCaste = targetCaste;
+    }
+
+    public String getTargetSex() {
+        return targetSex;
+    }
+
+    public void setTargetSex(String targetSex) {
+        this.targetSex = targetSex;
+    }
+
+    public boolean isAllowsGovtEmployee() {
+        return allowsGovtEmployee;
+    }
+
+    public void setAllowsGovtEmployee(boolean allowsGovtEmployee) {
+        this.allowsGovtEmployee = allowsGovtEmployee;
     }
 }

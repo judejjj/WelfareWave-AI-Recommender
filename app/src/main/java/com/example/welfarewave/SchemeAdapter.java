@@ -37,7 +37,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.SchemeView
         holder.tvTitle.setText(safe(scheme.getTitle()));
 
         String meta = scheme.getBeneficiaryType() == null || scheme.getBeneficiaryType().trim().isEmpty()
-                ? "For: Everyone"
+                ? "For: General"
                 : "For: " + scheme.getBeneficiaryType();
         holder.tvMeta.setText(meta);
 

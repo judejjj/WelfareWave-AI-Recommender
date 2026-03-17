@@ -13,6 +13,7 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -114,49 +115,118 @@ public class RecommendationEngine {
                 schemeScores.put(scheme, score);
             }
 
-            // --- Step 2: Strict Category Filter (Hybrid) ---
+            // --- Step 2: Strict Category & Rules Filter (Hybrid) ---
             // Keep only schemes whose category matches the user's category,
             // OR schemes that are "General" (universally applicable).
-            String userCategory = user.getCategory() != null ? user.getCategory().trim() : "";
-            List<Scheme> filteredSchemes = new ArrayList<>();
-            for (Scheme scheme : allSchemes) {
-                String schemeCategory = scheme.getBeneficiaryType() != null
-                        ? scheme.getBeneficiaryType().trim()
-                        : "";
-                boolean isGeneral = schemeCategory.equalsIgnoreCase("General");
-                boolean matchesUser = schemeCategory.equalsIgnoreCase(userCategory);
-                if (isGeneral || matchesUser) {
-                    filteredSchemes.add(scheme);
-                } else {
-                    Log.d(TAG, "Filtered OUT: '" + scheme.getTitle()
-                            + "' (category: '" + schemeCategory
-                            + "') does not match user category: '" + userCategory + "'");
+            // AND adhere to strict Caste, Govt Employee, and Sex rules.
+            List<Scheme> filteredSchemes = new ArrayList<>(allSchemes);
+            Iterator<Scheme> iterator = filteredSchemes.iterator();
+            
+            while (iterator.hasNext()) {
+                Scheme scheme = iterator.next();
+                
+                // 1. Category Mismatch
+                String schemeCat = scheme.getBeneficiaryType() != null ? scheme.getBeneficiaryType().trim() : "";
+                String userCat = user.getCategory() != null ? user.getCategory().trim() : "";
+                if (!schemeCat.equalsIgnoreCase(userCat) && !schemeCat.equalsIgnoreCase("General")) {
+                    Log.d(TAG, "Filtered OUT (Category): '" + scheme.getTitle() + "'");
+                    iterator.remove();
+                    continue;
+                }
+
+                // 2. Sex Mismatch
+                String schemeSex = scheme.getTargetSex() != null ? scheme.getTargetSex().trim() : "";
+                String userSex = user.getSex() != null ? user.getSex().trim() : "";
+                if (!schemeSex.isEmpty() && !schemeSex.equalsIgnoreCase("All") && !schemeSex.equalsIgnoreCase(userSex)) {
+                    Log.d(TAG, "Filtered OUT (Sex Rule): '" + scheme.getTitle() + "' expects '" + schemeSex + "' but got '" + userSex + "'");
+                    iterator.remove();
+                    continue;
+                }
+
+                // 3. Caste Mismatch
+                String schemeCaste = scheme.getTargetCaste() != null ? scheme.getTargetCaste().trim() : "";
+                String userCaste = user.getCaste() != null ? user.getCaste().trim() : "";
+                boolean casteMismatch = !schemeCaste.isEmpty() && !schemeCaste.equalsIgnoreCase("All") && !schemeCaste.toUpperCase().contains(userCaste.toUpperCase());
+                if (casteMismatch) {
+                    Log.d(TAG, "Filtered OUT (Caste Rule): '" + scheme.getTitle() + "' expects '" + schemeCaste + "' but got '" + userCaste + "'");
+                    iterator.remove();
+                    continue;
+                }
+                
+                // 4. Strict Govt Employee Rule
+                if (!scheme.isAllowsGovtEmployee() && user.isHasGovtEmployee()) {
+                    Log.d(TAG, "Filtered OUT (Govt Employee Rule): '" + scheme.getTitle() + "' does not allow govt employees.");
+                    iterator.remove();
+                    continue;
+                }
+
+                // 5. Income Cap filter
+                if (scheme.getIncomeCap() > 0 && user.getIncome() > scheme.getIncomeCap()) {
+                    Log.d(TAG, "Filtered OUT (Income Cap): '" + scheme.getTitle() + "' expects max " + scheme.getIncomeCap() + " but user has " + user.getIncome());
+                    iterator.remove();
+                    continue;
                 }
             }
 
             Log.d(TAG, "getPredictions: " + allSchemes.size() + " total schemes → "
-                    + filteredSchemes.size() + " after category filter (user: '" + userCategory + "')");
+                    + filteredSchemes.size() + " after ALL strict rule filters.");
 
-            // --- Step 3: Sort filtered list by TFLite score, descending ---
+            // --- Step 3: Point-Based Scoring Phase ---
+            // Calculate a total score for each scheme based on ML baseline + weighted rules.
             Collections.sort(filteredSchemes, (s1, s2) -> {
-                Float score1 = schemeScores.get(s1);
-                Float score2 = schemeScores.get(s2);
-                if (score1 == null) score1 = 0f;
-                if (score2 == null) score2 = 0f;
-                return Float.compare(score2, score1); // descending
+                double totalScore1 = calculateTotalScore(s1, user, schemeScores.get(s1));
+                double totalScore2 = calculateTotalScore(s2, user, schemeScores.get(s2));
+
+                return Double.compare(totalScore2, totalScore1); // Descending
             });
 
-            Log.d(TAG, "getPredictions: Sorted. Top recommendation: "
-                    + (filteredSchemes.isEmpty() ? "none" : filteredSchemes.get(0).getTitle()));
-
+            Log.d(TAG, "getPredictions: Sorted with Point-Based Scoring Algorithm.");
             return filteredSchemes;
 
         } catch (IOException e) {
-            Log.e(TAG, "TFLite Engine Crash: Failed to load model file. Returning unsorted schemes.", e);
+            Log.e(TAG, "Prediction failed", e);
             return allSchemes;
         } catch (Exception e) {
             Log.e(TAG, "TFLite Engine Crash: Unexpected error during inference. Returning unsorted schemes.", e);
             return allSchemes;
         }
+    }
+
+    /**
+     * Point-Based Scoring Algorithm:
+     * - Base Score: ML Probability
+     * - Caste Match: +100.0
+     * - Sex Match: +50.0
+     * - Category Match: +10.0
+     */
+    private static double calculateTotalScore(Scheme s, UserProfile user, Float mlScore) {
+        double totalScore = (mlScore != null ? mlScore : 0.0);
+
+        // 1. Caste Match (+100)
+        String schemeCaste = s.getTargetCaste() != null ? s.getTargetCaste().trim() : "";
+        String userCaste = user.getCaste() != null ? user.getCaste().trim() : "";
+        if (!schemeCaste.isEmpty() && !schemeCaste.equalsIgnoreCase("All")) {
+            if (schemeCaste.toUpperCase().contains(userCaste.toUpperCase())) {
+                totalScore += 100.0;
+            }
+        }
+
+        // 2. Sex Match (+50)
+        String schemeSex = s.getTargetSex() != null ? s.getTargetSex().trim() : "";
+        String userSex = user.getSex() != null ? user.getSex().trim() : "";
+        if (!schemeSex.isEmpty() && !schemeSex.equalsIgnoreCase("All")) {
+            if (schemeSex.equalsIgnoreCase(userSex)) {
+                totalScore += 50.0;
+            }
+        }
+
+        // 3. Category Match (+10)
+        String schemeCat = s.getBeneficiaryType() != null ? s.getBeneficiaryType().trim() : "";
+        String userCat = user.getCategory() != null ? user.getCategory().trim() : "";
+        if (schemeCat.equalsIgnoreCase(userCat)) {
+            totalScore += 10.0;
+        }
+
+        return totalScore;
     }
 }
