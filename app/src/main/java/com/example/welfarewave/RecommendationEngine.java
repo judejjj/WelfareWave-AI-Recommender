@@ -171,62 +171,54 @@ public class RecommendationEngine {
             Log.d(TAG, "getPredictions: " + allSchemes.size() + " total schemes → "
                     + filteredSchemes.size() + " after ALL strict rule filters.");
 
-            // --- Step 3: Point-Based Scoring Phase ---
-            // Calculate a total score for each scheme based on ML baseline + weighted rules.
-            Collections.sort(filteredSchemes, (s1, s2) -> {
-                double totalScore1 = calculateTotalScore(s1, user, schemeScores.get(s1));
-                double totalScore2 = calculateTotalScore(s2, user, schemeScores.get(s2));
+            // --- Step 3: Apply Keyword-based Heuristic Boost ---
+            // The AI model lacks features like specific relationship status or caste.
+            // We manually boost schemes that mention these specific keywords.
+            for (Scheme s : filteredSchemes) {
+                float boost = 0f;
+                String fullText = (s.getTitle() + " " + s.getDescription()).toLowerCase();
 
-                return Double.compare(totalScore2, totalScore1); // Descending
+                // 1. Boost for Relationship Status (e.g., "Divorced")
+                if (user.getRelationshipStatus() != null && !user.getRelationshipStatus().equalsIgnoreCase("Unmarried")) {
+                    if (fullText.contains(user.getRelationshipStatus().toLowerCase())) {
+                        boost += 5.0f; // Significant boost
+                    }
+                }
+
+                // 2. Boost for specific Caste matches
+                if (user.getCaste() != null && !user.getCaste().equalsIgnoreCase("General")) {
+                    if (fullText.contains(user.getCaste().toLowerCase())) {
+                        boost += 3.0f;
+                    }
+                }
+
+                if (boost > 0) {
+                    Float currentScore = schemeScores.get(s);
+                    schemeScores.put(s, (currentScore != null ? currentScore : 0f) + boost);
+                    Log.d(TAG, "Boosted '" + s.getTitle() + "' by " + boost + " for specific keyword matches.");
+                }
+            }
+
+            // --- Step 4: Sort filtered list by TFLite (boosted) score, descending ---
+            Collections.sort(filteredSchemes, (s1, s2) -> {
+                Float score1 = schemeScores.get(s1);
+                Float score2 = schemeScores.get(s2);
+                if (score1 == null) score1 = 0f;
+                if (score2 == null) score2 = 0f;
+                return Float.compare(score2, score1); // descending
             });
 
-            Log.d(TAG, "getPredictions: Sorted with Point-Based Scoring Algorithm.");
+            Log.d(TAG, "getPredictions: Sorted. Top recommendation: "
+                    + (filteredSchemes.isEmpty() ? "none" : filteredSchemes.get(0).getTitle()));
+
             return filteredSchemes;
 
         } catch (IOException e) {
-            Log.e(TAG, "Prediction failed", e);
+            Log.e(TAG, "TFLite Engine Crash: Failed to load model file. Returning unsorted schemes.", e);
             return allSchemes;
         } catch (Exception e) {
             Log.e(TAG, "TFLite Engine Crash: Unexpected error during inference. Returning unsorted schemes.", e);
             return allSchemes;
         }
-    }
-
-    /**
-     * Point-Based Scoring Algorithm:
-     * - Base Score: ML Probability
-     * - Caste Match: +100.0
-     * - Sex Match: +50.0
-     * - Category Match: +10.0
-     */
-    private static double calculateTotalScore(Scheme s, UserProfile user, Float mlScore) {
-        double totalScore = (mlScore != null ? mlScore : 0.0);
-
-        // 1. Caste Match (+100)
-        String schemeCaste = s.getTargetCaste() != null ? s.getTargetCaste().trim() : "";
-        String userCaste = user.getCaste() != null ? user.getCaste().trim() : "";
-        if (!schemeCaste.isEmpty() && !schemeCaste.equalsIgnoreCase("All")) {
-            if (schemeCaste.toUpperCase().contains(userCaste.toUpperCase())) {
-                totalScore += 100.0;
-            }
-        }
-
-        // 2. Sex Match (+50)
-        String schemeSex = s.getTargetSex() != null ? s.getTargetSex().trim() : "";
-        String userSex = user.getSex() != null ? user.getSex().trim() : "";
-        if (!schemeSex.isEmpty() && !schemeSex.equalsIgnoreCase("All")) {
-            if (schemeSex.equalsIgnoreCase(userSex)) {
-                totalScore += 50.0;
-            }
-        }
-
-        // 3. Category Match (+10)
-        String schemeCat = s.getBeneficiaryType() != null ? s.getBeneficiaryType().trim() : "";
-        String userCat = user.getCategory() != null ? user.getCategory().trim() : "";
-        if (schemeCat.equalsIgnoreCase(userCat)) {
-            totalScore += 10.0;
-        }
-
-        return totalScore;
     }
 }

@@ -42,6 +42,7 @@ public class AdminSchemeAdapter extends RecyclerView.Adapter<AdminSchemeAdapter.
                 ? "For: Everyone"
                 : "For: " + scheme.getBeneficiaryType();
         holder.tvMeta.setText(meta);
+        holder.tvApplyCount.setText("📊 Applications: " + scheme.getApplyCount());
 
         holder.itemView.setOnClickListener(v -> listener.onOpen(scheme));
         holder.btnEdit.setOnClickListener(v -> listener.onEdit(scheme));
@@ -56,6 +57,7 @@ public class AdminSchemeAdapter extends RecyclerView.Adapter<AdminSchemeAdapter.
     static class VH extends RecyclerView.ViewHolder {
         TextView tvTitle;
         TextView tvMeta;
+        TextView tvApplyCount;
         ImageButton btnEdit;
         ImageButton btnDelete;
 
@@ -63,6 +65,7 @@ public class AdminSchemeAdapter extends RecyclerView.Adapter<AdminSchemeAdapter.
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvSchemeTitle);
             tvMeta = itemView.findViewById(R.id.tvSchemeMeta);
+            tvApplyCount = itemView.findViewById(R.id.tvApplyCount);
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }

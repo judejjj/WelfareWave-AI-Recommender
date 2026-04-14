@@ -26,6 +26,7 @@ public class SchemeDetailActivity extends BaseActivity {
     public static final String EXTRA_ELIGIBILITY = "extra_eligibility";
     public static final String EXTRA_BENEFITS    = "extra_benefits";
     public static final String EXTRA_APPLICATION_URL = "extra_application_url";
+    public static final String EXTRA_SCHEME_ID = "extra_scheme_id";
 
     private TextToSpeech textToSpeech;
     private boolean isSpeaking = false;
@@ -54,6 +55,7 @@ public class SchemeDetailActivity extends BaseActivity {
         String eligibility    = getIntent().getStringExtra(EXTRA_ELIGIBILITY);
         String benefits       = getIntent().getStringExtra(EXTRA_BENEFITS);
         String applicationUrl = getIntent().getStringExtra(EXTRA_APPLICATION_URL);
+        final String schemeId = getIntent().getStringExtra(EXTRA_SCHEME_ID);
 
         // 1. Set English content first
         tvTitle.setText(safe(title));
@@ -137,6 +139,14 @@ public class SchemeDetailActivity extends BaseActivity {
 
         // 5. Apply / Open Link button
         btnOpenLink.setOnClickListener(v -> {
+            // INCREMENT APPLY COUNT
+            if (schemeId != null && !schemeId.isEmpty()) {
+                com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                        .collection("welfare_schemes")
+                        .document(schemeId)
+                        .update("applyCount", com.google.firebase.firestore.FieldValue.increment(1));
+            }
+
             if (TextUtils.isEmpty(applicationUrl)) {
                 Toast.makeText(this, "No application link provided", Toast.LENGTH_LONG).show();
                 return;

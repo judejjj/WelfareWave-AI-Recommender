@@ -26,6 +26,7 @@ public class Scheme implements Serializable {
     private String targetSex;
     private boolean allowsGovtEmployee;
     private long incomeCap;
+    private int applyCount;
 
     // Cache translated fields
     private String translatedTitle;
@@ -42,7 +43,7 @@ public class Scheme implements Serializable {
     public Scheme(String id, String title, String description, String beneficiaryType,
             String eligibilityRules, String benefits, String applicationUrl,
             String targetCaste, String targetSex, boolean allowsGovtEmployee,
-            com.google.firebase.Timestamp timestamp) {
+            int applyCount, com.google.firebase.Timestamp timestamp) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -53,6 +54,7 @@ public class Scheme implements Serializable {
         this.targetCaste = targetCaste;
         this.targetSex = targetSex;
         this.allowsGovtEmployee = allowsGovtEmployee;
+        this.applyCount = applyCount;
         this.timestamp = timestamp;
     }
 
@@ -186,5 +188,13 @@ public class Scheme implements Serializable {
 
     public void setAllowsGovtEmployee(boolean allowsGovtEmployee) {
         this.allowsGovtEmployee = allowsGovtEmployee;
+    }
+
+    public int getApplyCount() {
+        return applyCount;
+    }
+
+    public void setApplyCount(int applyCount) {
+        this.applyCount = applyCount;
     }
 }

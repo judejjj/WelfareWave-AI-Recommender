@@ -78,6 +78,7 @@ public class AdminDashboardActivity extends BaseActivity {
                 i.putExtra(SchemeDetailActivity.EXTRA_ELIGIBILITY, scheme.getEligibilityRules());
                 i.putExtra(SchemeDetailActivity.EXTRA_BENEFITS, scheme.getBenefits());
                 i.putExtra(SchemeDetailActivity.EXTRA_APPLICATION_URL, scheme.getApplicationUrl());
+                i.putExtra(SchemeDetailActivity.EXTRA_SCHEME_ID, scheme.getId());
                 startActivity(i);
             }
         });
